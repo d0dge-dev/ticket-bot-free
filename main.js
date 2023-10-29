@@ -644,7 +644,7 @@ client.on('interactionCreate', async interaction => {
                                 }
                             }
 
-                        for (let j = 0; j < config.categorys[j].ticket.emebd.fields.length; j++) {
+                        for (let j = 0; j < config.categorys[i].ticket.emebd.fields.length; j++) {
                             embed.addFields({
                                 name: config.categorys[i].ticket.emebd.fields[j].name
                                 .replace(/{userping}/g, `<@${interaction.user.id}>`)
@@ -708,8 +708,6 @@ client.on('interactionCreate', async interaction => {
         } else if (customId == 'feedback') {
             stars = values[0]
 
-            updateRating(stars)
-
             const modal = new Discord.Modal()
                 .setTitle('Feedback - ' + stars + ' Sterne')
                 .setCustomId('feedbackmodal')
@@ -749,18 +747,5 @@ client.on('interactionCreate', async interaction => {
         }
     };
 });
-
-client.on("messageCreate", async message => {
-    if (message.channelId == config.feedback.channel) {
-        message.react("❤")
-        if (message.author.bot) return
-        const nachricht = message.content
-        message.reply("Bitte nutze /feedback\nKopiere das wichtisgte, diese Nachricht wird in 15 Sekunden gelöscht\n\n" + nachricht).then(async msg => {
-            message.delete()
-            await new Promise(r => setTimeout(r, 15000));
-            msg.delete()
-        })
-    }
-})
 
 client.login(config.settings.token)
